@@ -1,0 +1,76 @@
+/* 기본 레이아웃 */
+.gnb-open-section {
+    width: 100vw;
+    height: calc(855 / 1920 * 100vw);
+    padding: 0 calc(54 / 1920 * 100vw);
+    position: relative;
+    background-color: #FFFBF7;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.gnb-open-section .pc-only { display: block; }
+.gnb-open-section .mo-only { display: none; }
+
+.gnb-open-section .bg {
+    width: calc(1813 / 1920 * 100vw);
+    height: calc(855 / 1920 * 100vw);
+}
+
+.gnb-open-section .floting-box {
+    position: absolute;
+    width: calc(1813 / 1920 * 100vw);
+    inset: 0;
+    margin: auto; /* 중앙 정렬 유지 */
+}
+
+/* 메뉴 공통 스타일 */
+.gnb-open-section .menu { position: absolute; text-decoration: none; display: block; }
+.gnb-open-section .menu p.text {
+    font-size: calc(15 / 1920 * 100vw);
+    color: #1C1D1B;
+    position: absolute;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.gnb-open-section .menu-txt {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 호버 애니메이션 */
+.gnb-open-section .menu-hover {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: width 0.5s ease, opacity 0.3s ease;
+    overflow: hidden;
+    width: 0;
+}
+
+.gnb-open-section .menu:hover .menu-hover { opacity: 1; }
+
+/* PC 위치 값 (예시: Menu 1) */
+.gnb-open-section .menu1 { 
+    width: calc(313 / 1920 * 100vw); 
+    height: calc(146 / 1920 * 100vw); 
+    top: calc(124 / 1920 * 100vw); 
+    left: calc(303 / 1920 * 100vw); 
+}
+.gnb-open-section .menu1:hover .menu1-hover { width: calc(291 / 1920 * 100vw); }
+
+/* 모바일 대응 (750px 이하) */
+@media (max-width: 750px) {
+    .gnb-open-section { 
+        height: calc(1360 / 750 * 100vw); 
+        display: flex; 
+        justify-content: center;
+    }
+    .gnb-open-section .pc-only { display: none; }
+    .gnb-open-section .mo-only { display: block; }
+    /* ... 모바일 위치 값 생략 ... */
+}
