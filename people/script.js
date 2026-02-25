@@ -1,7 +1,7 @@
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const sections = gsap.utils.toArray(".stack-section");
-// 만약 sections.length가 5가 아니라면 HTML의 클래스명을 다시 확인해야 합니다.
+// 총 7개 섹션: 0(bg-1), 1(bg-2), 2(bg-3), 3(bg-4 scrub), 4(bg-5), 5(bg-6), 6(bg-7)
 let currentIndex = 0;
 let isAnimating = false;
 
@@ -9,8 +9,8 @@ let isAnimating = false;
 const dotContainer = document.querySelector(".dot-container");
 const dotPositionsPx = [{x: 1629, y: 233}, {x: 1713, y: 299}, {x: 1701, y: 378}, {x: 1746, y: 635}, {x: 1677, y: 604}, {x: 1533, y: 726}, {x: 1456, y: 937}, {x: 1302, y: 823}, {x: 1085, y: 886}, {x: 996, y: 843}, {x: 1064, y: 644}, {x: 1257, y: 650}, {x: 1423, y: 485}, {x: 1397, y: 455}, {x: 1558, y: 149}, {x: 1388, y: 45}, {x: 1165, y: 288}, {x: 1142, y: 264}, {x: 1101, y: 54}, {x: 1054, y: 143}, {x: 973, y: 279}, {x: 933, y: 276}, {x: 808, y: 60}, {x: 840, y: 146}, {x: 712, y: 202}, {x: 691, y: 264}, {x: 709, y: 220}, {x: 383, y: 121}, {x: 319, y: 183}, {x: 482, y: 208}, {x: 490, y: 345}, {x: 252, y: 362}, {x: 189, y: 467}, {x: 277, y: 521}, {x: 347, y: 482}, {x: 359, y: 488}, {x: 404, y: 537}, {x: 674, y: 887}, {x: 811, y: 747}, {x: 259, y: 719}, {x: 398, y: 695}, {x: 461, y: 790}, {x: 526, y: 881}, {x: 628, y: 655}, {x: 703, y: 572}];
 
-while(dotPositionsPx.length < 45) { 
-    dotPositionsPx.push({ x: Math.random() * 1920, y: Math.random() * 1000 }); 
+while(dotPositionsPx.length < 45) {
+    dotPositionsPx.push({ x: Math.random() * 1920, y: Math.random() * 1000 });
 }
 
 dotPositionsPx.forEach(pos => {
@@ -42,12 +42,12 @@ const playTyping = async (groupElement) => {
     if (!groupElement || groupElement.getAttribute("data-is-done") === "true") return;
     groupElement.setAttribute("data-is-done", "true");
     const lines = groupElement.querySelectorAll(".line");
-    for (const line of lines) { 
-        await typeLine(line, line.getAttribute("data-text")); 
+    for (const line of lines) {
+        await typeLine(line, line.getAttribute("data-text"));
     }
 };
 
-// 3. 1~3번 섹션 트리거 (먼저 생성)
+// 3. 1~3번 섹션 트리거
 const sectionTriggers = [];
 for (let i = 0; i < 3; i++) {
     const st = ScrollTrigger.create({
@@ -62,12 +62,12 @@ for (let i = 0; i < 3; i++) {
     if(groupEl && i > 0) groupEl.querySelectorAll(".line").forEach(l => l.innerText = "");
 }
 
-// 4. 4번 섹션 타임라인
+// 4. 4번 섹션 타임라인 (scrub)
 const sec4 = document.querySelector(".bg-4");
 const text4 = sec4.querySelector(".typing-4");
 const img4 = sec4.querySelector(".bg-image-4");
 const blurLayer = sec4.querySelector(".blur-layer");
-const text4Content = ["효율을 따졌다면 시작하지 않았을 일들.", "우리는 이 미련한 집요함을 ‘자라다의 방식'이라 부릅니다.", "그저 남들이 보지 않는 수백개의 점까지 끝까지 들여다볼 뿐입니다."];
+const text4Content = ["효율을 따졌다면 시작하지 않았을 일들.", "우리는 이 미련한 집요함을 '자라다의 방식'이라 부릅니다.", "그저 남들이 보지 않는 수백개의 점까지 끝까지 들여다볼 뿐입니다."];
 
 const tl4 = gsap.timeline({
     scrollTrigger: {
@@ -104,33 +104,80 @@ tl4.set(text4, { opacity: 0, y: 30 })
     }, "<0.1")
     .to(text4, { opacity: 1, y: 0, startAt: { y: 30 }, duration: 0.2 }, "<0.2");
 
-// 5. 5번 섹션 트리거 (강력하게 분리 및 Z-index 조정)
+// ===== 5. bg-5 (img5 팀원 콜라주) =====
 const sec5 = document.querySelector(".bg-5");
-const typing5 = sec5.querySelector(".typing-group");
+const img5El = sec5.querySelector(".bg-image-5");
+const typingLeft5 = sec5.querySelector(".typing-group5-left");
+const typingRight5 = sec5.querySelector(".typing-group5-right");
+// 초기 숨김
+if (typingLeft5) typingLeft5.querySelectorAll(".line").forEach(l => l.innerText = "");
+if (typingRight5) typingRight5.querySelectorAll(".line").forEach(l => l.innerText = "");
+let sec5Played = false;
+
+const playSec5 = () => {
+    if (sec5Played) return;
+    sec5Played = true;
+    // 이미지 fade-in → 완료 후 양쪽 타이핑 동시 시작
+    gsap.to(img5El, {
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out",
+        onComplete: () => {
+            playTyping(typingLeft5);
+            playTyping(typingRight5);
+        }
+    });
+};
 
 const st5 = ScrollTrigger.create({
     trigger: sec5,
-    start: () => tl4.scrollTrigger.end,  // .bg-4 타임라인이 정확히 끝나는 위치에서 시작
+    start: "top top",
     pin: true,
     pinSpacing: false,
-    zIndex: 20,
-    onEnter: () => {
-        if (typing5) playTyping(typing5);
-    }
+    zIndex: 20
 });
 
-// 6. 이동 함수 (정확한 인덱스 기반 목적지 설정)
+// ===== 6. bg-6 (img6 단체샷) =====
+const sec6 = document.querySelector(".bg-6");
+const typing6 = sec6.querySelector(".typing-group");
+if (typing6) typing6.querySelectorAll(".line").forEach(l => l.innerText = "");
+
+const st6 = ScrollTrigger.create({
+    trigger: sec6,
+    start: "top top",
+    pin: true,
+    pinSpacing: false,
+    zIndex: 21
+});
+
+// ===== 7. bg-7 (img7 서명) =====
+const sec7 = document.querySelector(".bg-7");
+const typing7 = sec7.querySelector(".typing-group");
+if (typing7) typing7.querySelectorAll(".line").forEach(l => l.innerText = "");
+
+const st7 = ScrollTrigger.create({
+    trigger: sec7,
+    start: "top top",
+    pin: true,
+    pinSpacing: false,
+    zIndex: 22
+});
+
+// ===== 8. 이동 함수 (7개 섹션) =====
+// 인덱스: 0(bg-1), 1(bg-2), 2(bg-3), 3(bg-4 scrub), 4(bg-5), 5(bg-6), 6(bg-7)
 const goToSection = (index) => {
     if (index < 0 || index >= sections.length || isAnimating) return;
     isAnimating = true;
-    
+
     let targetScroll;
-    if (index === 4) {
-        targetScroll = tl4.scrollTrigger.end; // 5번 섹션
-    } else if (index === 3) {
-        targetScroll = tl4.scrollTrigger.start; // 4번 섹션
+    if (index === 3) {
+        targetScroll = tl4.scrollTrigger.start;
+    } else if (index <= 2) {
+        targetScroll = sectionTriggers[index].start;
     } else {
-        targetScroll = sectionTriggers[index].start; // 1~3번 섹션
+        // index 4,5,6 → bg-5, bg-6, bg-7
+        const offsetFromEnd = (index - 3) * window.innerHeight;
+        targetScroll = tl4.scrollTrigger.end + offsetFromEnd;
     }
 
     gsap.to(window, {
@@ -140,14 +187,21 @@ const goToSection = (index) => {
         onComplete: () => {
             currentIndex = index;
             isAnimating = false;
-            // 타이핑은 모든 섹션의 .typing-group 공통 처리
+
+            // bg-5: 이미지 fade-in + 양쪽 타이핑
+            if (currentIndex === 4) {
+                playSec5();
+                return;
+            }
+
+            // bg-6, bg-7: 일반 타이핑
             const group = sections[currentIndex].querySelector(".typing-group");
             if (group) playTyping(group);
         }
     });
 };
 
-// 7. 휠 핸들러 (5번 섹션 진입 차단 현상 해결)
+// ===== 9. 휠 핸들러 (7개 섹션) =====
 window.addEventListener("wheel", (e) => {
     e.preventDefault();
     if (isAnimating) return;
@@ -156,18 +210,21 @@ window.addEventListener("wheel", (e) => {
     const progress = tl4.scrollTrigger.progress;
 
     if (currentIndex === 3) {
-        // 4번 섹션 내부일 때
+        // 4번 섹션 내부 (scrub)
         if (delta < 0 && progress <= 0.01) {
             goToSection(2);
         } else if (delta > 0 && progress >= 0.99) {
-            goToSection(4); // 5번으로 강제 점프
+            goToSection(4);
         } else {
-            // 직접 윈도우 스크롤을 delta만큼 움직여서 scrub 유도
             window.scrollTo(0, window.scrollY + delta);
         }
-    } else if (currentIndex === 4) {
-        // 5번 섹션일 때 위로 올리면 다시 4번으로
-        if (delta < 0) goToSection(3);
+    } else if (currentIndex >= 4 && currentIndex <= 6) {
+        // 5~7번 섹션: 위/아래 단순 이동
+        if (delta > 0 && currentIndex < sections.length - 1) {
+            goToSection(currentIndex + 1);
+        } else if (delta < 0) {
+            goToSection(currentIndex - 1);
+        }
     } else {
         // 1~3번 섹션
         if (delta > 0) goToSection(currentIndex + 1);
@@ -175,11 +232,10 @@ window.addEventListener("wheel", (e) => {
     }
 }, { passive: false });
 
-// 8. 페이지 로드 초기화
+// ===== 10. 페이지 로드 초기화 =====
 window.scrollTo(0, 0);
 window.addEventListener("load", () => {
     const firstGroup = sections[0].querySelector(".typing-group");
     if (firstGroup) playTyping(firstGroup);
-    // 모든 좌표를 다시 계산하도록 리프레시
     ScrollTrigger.refresh();
 });
