@@ -16,7 +16,7 @@
 
 .kv .bg {
     width: calc(1813 / 1920 * 100vw);
-    height: 100vh;
+    height: auto;
     object-fit: cover;
 }
 
