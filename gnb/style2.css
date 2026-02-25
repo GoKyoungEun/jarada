@@ -1,7 +1,7 @@
-/* 기본 레이아웃 */
+/* [1] 공통 레이아웃 및 초기화 */
 .gnb-open-section {
-    width: 100vw;
-    height: calc(855 / 1920 * 100vw);
+    width: 100%;
+    height: 100vh;
     padding: 0 calc(54 / 1920 * 100vw);
     position: relative;
     background-color: #FFFBF7;
@@ -9,22 +9,24 @@
     box-sizing: border-box;
 }
 
+.gnb-open-section img { display: block; max-width: none; }
 .gnb-open-section .pc-only { display: block; }
 .gnb-open-section .mo-only { display: none; }
 
 .gnb-open-section .bg {
     width: calc(1813 / 1920 * 100vw);
-    height: calc(855 / 1920 * 100vw);
+    height: 100vh;
+    object-fit: cover;
 }
 
 .gnb-open-section .floting-box {
     position: absolute;
     width: calc(1813 / 1920 * 100vw);
     inset: 0;
-    margin: auto; /* 중앙 정렬 유지 */
+    margin: auto;
 }
 
-/* 메뉴 공통 스타일 */
+/* [2] 메뉴 공통 스타일 및 호버 효과 */
 .gnb-open-section .menu { position: absolute; text-decoration: none; display: block; }
 .gnb-open-section .menu p.text {
     font-size: calc(15 / 1920 * 100vw);
@@ -42,35 +44,159 @@
     object-fit: cover;
 }
 
-/* 호버 애니메이션 */
 .gnb-open-section .menu-hover {
     position: absolute;
     z-index: 1;
     opacity: 0;
     transition: width 0.5s ease, opacity 0.3s ease;
     overflow: hidden;
-    width: 0;
+    width: 0px;
 }
 
 .gnb-open-section .menu:hover .menu-hover { opacity: 1; }
 
-/* PC 위치 값 (예시: Menu 1) */
-.gnb-open-section .menu1 { 
-    width: calc(313 / 1920 * 100vw); 
-    height: calc(146 / 1920 * 100vw); 
-    top: calc(124 / 1920 * 100vw); 
-    left: calc(303 / 1920 * 100vw); 
-}
+/* [3] PC 위치값 (Viewport 1920px 기준) */
+.gnb-open-section .menu1 { width: calc(313 / 1920 * 100vw); height: calc(146 / 1920 * 100vw); top: calc(124 / 1920 * 100vw); left: calc(303 / 1920 * 100vw); }
+.gnb-open-section .menu1 p.text { bottom: calc(-8 / 1920 * 100vw); left: calc(178 / 1920 * 100vw); }
+.gnb-open-section .menu1-hover { top: calc(59 / 1920 * 100vw); left: calc(34 / 1920 * 100vw); }
+.gnb-open-section .menu1-hover img { width: calc(291 / 1920 * 100vw); height: calc(55 / 1920 * 100vw); }
 .gnb-open-section .menu1:hover .menu1-hover { width: calc(291 / 1920 * 100vw); }
 
-/* 모바일 대응 (750px 이하) */
-@media (max-width: 750px) {
-    .gnb-open-section { 
-        height: calc(1360 / 750 * 100vw); 
-        display: flex; 
-        justify-content: center;
-    }
+.gnb-open-section .menu2 { width: calc(301 / 1920 * 100vw); height: calc(175 / 1920 * 100vw); top: calc(59 / 1920 * 100vw); left: calc(790 / 1920 * 100vw); }
+.gnb-open-section .menu2 p.text { bottom: calc(-15 / 1920 * 100vw); left: calc(59 / 1920 * 100vw); }
+.gnb-open-section .menu2-hover1 { top: calc(45 / 1920 * 100vw); left: calc(-8 / 1920 * 100vw); }
+.gnb-open-section .menu2-hover1 img { width: calc(263 / 1920 * 100vw); height: calc(59 / 1920 * 100vw); }
+.gnb-open-section .menu2-hover2 { top: calc(110 / 1920 * 100vw); left: calc(125 / 1920 * 100vw); transition-delay: 0.3s; }
+.gnb-open-section .menu2-hover2 img { width: calc(191 / 1920 * 100vw); height: calc(33 / 1920 * 100vw); }
+.gnb-open-section .menu2:hover .menu2-hover1 { width: calc(263 / 1920 * 100vw); }
+.gnb-open-section .menu2:hover .menu2-hover2 { width: calc(191 / 1920 * 100vw); }
+
+.gnb-open-section .menu3 { width: calc(295 / 1920 * 100vw); height: calc(160 / 1920 * 100vw); top: calc(89 / 1920 * 100vw); right: calc(248 / 1920 * 100vw); }
+.gnb-open-section .menu3 p.text { bottom: calc(-21 / 1920 * 100vw); right: calc(1 / 1920 * 100vw); }
+.gnb-open-section .menu3-hover1 { top: calc(40 / 1920 * 100vw); left: calc(-16 / 1920 * 100vw); }
+.gnb-open-section .menu3-hover1 img { width: calc(179 / 1920 * 100vw); height: calc(42 / 1920 * 100vw); }
+.gnb-open-section .menu3-hover2 { top: calc(110 / 1920 * 100vw); left: calc(43 / 1920 * 100vw); transition-delay: 0.3s; }
+.gnb-open-section .menu3-hover2 img { width: calc(255 / 1920 * 100vw); height: calc(43 / 1920 * 100vw); }
+.gnb-open-section .menu3:hover .menu3-hover1 { width: calc(179 / 1920 * 100vw); }
+.gnb-open-section .menu3:hover .menu3-hover2 { width: calc(255 / 1920 * 100vw); }
+
+.gnb-open-section .menu4 { width: calc(358 / 1920 * 100vw); height: calc(161 / 1920 * 100vw); top: calc(343 / 1920 * 100vw); left: calc(224 / 1920 * 100vw); }
+.gnb-open-section .menu4 p.text { bottom: calc(-25 / 1920 * 100vw); left: calc(65 / 1920 * 100vw); }
+.gnb-open-section .menu4-hover1 { top: calc(38 / 1920 * 100vw); left: calc(44 / 1920 * 100vw); }
+.gnb-open-section .menu4-hover1 img { width: calc(155 / 1920 * 100vw); height: calc(36 / 1920 * 100vw); }
+.gnb-open-section .menu4-hover2 { top: calc(72 / 1920 * 100vw); left: calc(108 / 1920 * 100vw);  transition-delay: 0.3s; }
+.gnb-open-section .menu4-hover2 img { width: calc(243 / 1920 * 100vw); height: calc(63 / 1920 * 100vw); }
+.gnb-open-section .menu4:hover .menu4-hover1 { width: calc(155 / 1920 * 100vw); }
+.gnb-open-section .menu4:hover .menu4-hover2 { width: calc(243 / 1920 * 100vw); }
+
+.gnb-open-section .menu5 { width: calc(267 / 1920 * 100vw); height: calc(161 / 1920 * 100vw); top: calc(299 / 1920 * 100vw); left: calc(773 / 1920 * 100vw); }
+.gnb-open-section .menu5 p.text { bottom: calc(-38 / 1920 * 100vw); right: calc(-43 / 1920 * 100vw); }
+.gnb-open-section .menu5-hover1 { top: calc(57 / 1920 * 100vw); left: calc(25 / 1920 * 100vw); }
+.gnb-open-section .menu5-hover1 img { width: calc(173 / 1920 * 100vw); height: calc(31 / 1920 * 100vw); }
+.gnb-open-section .menu5-hover2 { top: calc(114 / 1920 * 100vw); left: calc(-6 / 1920 * 100vw); transition-delay: 0.3s;}
+.gnb-open-section .menu5-hover2 img { width: calc(273 / 1920 * 100vw); height: calc(43 / 1920 * 100vw);}
+.gnb-open-section .menu5:hover .menu5-hover1 { width: calc(173 / 1920 * 100vw); }
+.gnb-open-section .menu5:hover .menu5-hover2 { width: calc(273 / 1920 * 100vw); }
+
+.gnb-open-section .menu6 { width: calc(294 / 1920 * 100vw); height: calc(183 / 1920 * 100vw); top: calc(339 / 1920 * 100vw); right: calc(276 / 1920 * 100vw); }
+.gnb-open-section .menu6 p.text { bottom: calc(36 / 1920 * 100vw); left: 0; }
+.gnb-open-section .menu6-hover1 { top: calc(39 / 1920 * 100vw); left: calc(18 / 1920 * 100vw); }
+.gnb-open-section .menu6-hover1 img { width: calc(188 / 1920 * 100vw); height: calc(35 / 1920 * 100vw); }
+.gnb-open-section .menu6-hover2 { top: calc(82 / 1920 * 100vw); left: calc(86 / 1920 * 100vw); transition-delay: 0.3s;}
+.gnb-open-section .menu6-hover2 img { width: calc(153 / 1920 * 100vw); height: calc(67 / 1920 * 100vw);}
+.gnb-open-section .menu6:hover .menu6-hover1 { width: calc(188 / 1920 * 100vw); }
+.gnb-open-section .menu6:hover .menu6-hover2 { width: calc(153 / 1920 * 100vw); }
+
+.gnb-open-section .menu7 { width: calc(327 / 1920 * 100vw); height: calc(174 / 1920 * 100vw); left: calc(533 / 1920 * 100vw); top: calc(532 / 1920 * 100vw); }
+.gnb-open-section .menu7 p.text { bottom: calc(-30 / 1920 * 100vw); right: calc(48 / 1920 * 100vw); }
+.gnb-open-section .menu7-hover1 { top: calc(45 / 1920 * 100vw); left: calc(45 / 1920 * 100vw); }
+.gnb-open-section .menu7-hover1 img { width: calc(156 / 1920 * 100vw); height: calc(37 / 1920 * 100vw); }
+.gnb-open-section .menu7-hover2 { top: calc(96 / 1920 * 100vw); left: calc(-3 / 1920 * 100vw); transition-delay: 0.3s;}
+.gnb-open-section .menu7-hover2 img { width: calc(340 / 1920 * 100vw); height: calc(56 / 1920 * 100vw);}
+.gnb-open-section .menu7:hover .menu7-hover1 { width: calc(156 / 1920 * 100vw); }
+.gnb-open-section .menu7:hover .menu7-hover2 { width: calc(340 / 1920 * 100vw); }
+
+.gnb-open-section .menu8 { width: calc(267 / 1920 * 100vw); height: calc(185 / 1920 * 100vw); right: calc(503 / 1920 * 100vw); top: calc(548 / 1920 * 100vw); }
+.gnb-open-section .menu8 p.text { bottom: calc(-3 / 1920 * 100vw); right: calc(-17 / 1920 * 100vw); }
+.gnb-open-section .menu8-hover1 { top: calc(40 / 1920 * 100vw); left: calc(-18 / 1920 * 100vw); }
+.gnb-open-section .menu8-hover1 img { width: calc(138 / 1920 * 100vw); height: calc(43 / 1920 * 100vw); }
+.gnb-open-section .menu8-hover2 { top: calc(89 / 1920 * 100vw); left: calc(44 / 1920 * 100vw); transition-delay: 0.3s;}
+.gnb-open-section .menu8-hover2 img { width: calc(222 / 1920 * 100vw); height: calc(56 / 1920 * 100vw); }
+.gnb-open-section .menu8:hover .menu8-hover1 { width: calc(138 / 1920 * 100vw); }
+.gnb-open-section .menu8:hover .menu8-hover2 { width: calc(222 / 1920 * 100vw); }
+
+/* [4] 태블릿 및 모바일 위치값 & 호버 제거 */
+
+@media (max-width: 1024px) {
+    .gnb-open-section { width: 100%; height: calc(1636 / 1024 * 100vw); padding: 0; display: flex; justify-content: center; }
     .gnb-open-section .pc-only { display: none; }
     .gnb-open-section .mo-only { display: block; }
-    /* ... 모바일 위치 값 생략 ... */
+    .gnb-open-section .bg { width: 100%; height: 100vh; object-fit: cover; }
+    .gnb-open-section .floting-box { width: calc(721 / 1024 * 100vw);}
+    .gnb-open-section .menu p.text { font-size: calc(20 / 1024 * 100vw); }
+
+    /* ★ 호버 요소 아예 안 보이게 처리 ★ */
+    .gnb-open-section .menu-hover,
+    .gnb-open-section .menu:hover .menu-hover {
+        display: none !important;
+        opacity: 0 !important;
+        width: 0 !important;
+    }
+
+    /* 1024 위치값들 */
+    .gnb-open-section .menu1 { width: calc(313 / 1024 * 100vw); height: calc(146 / 1024 * 100vw); top: calc(41 / 1024 * 100vw); left: calc(20 / 1024 * 100vw); }
+    .gnb-open-section .menu1 p.text { bottom: calc(-8 / 1024 * 100vw); left: calc(178 / 1024 * 100vw); }
+
+    .gnb-open-section .menu2 { width: calc(301 / 1024 * 100vw); height: calc(175 / 1024 * 100vw); top: calc(148 / 1024 * 100vw); left: calc(403 / 1024 * 100vw); }
+    .gnb-open-section .menu2 p.text { bottom: calc(-25 / 1024 * 100vw); left: calc(59 / 1024 * 100vw); }
+
+    .gnb-open-section .menu3 { width: calc(295 / 1024 * 100vw); height: calc(160 / 1024 * 100vw); top: calc(275 / 1024 * 100vw); left: calc(66 / 1024 * 100vw); right: auto; }
+    .gnb-open-section .menu3 p.text { bottom: calc(-25 / 1024 * 100vw); right: calc(3 / 1024 * 100vw); }
+
+    .gnb-open-section .menu4 { width: calc(358 / 1024 * 100vw); height: calc(161 / 1024 * 100vw); top: calc(449 / 1024 * 100vw); right: calc(32 / 1024 * 100vw); left: auto; }
+    .gnb-open-section .menu4 p.text { bottom: calc(-25 / 1024 * 100vw); left: calc(65 / 1024 * 100vw); }
+
+    .gnb-open-section .menu5 { width: calc(267 / 1024 * 100vw); height: calc(161 / 1024 * 100vw); top: calc(557 / 1024 * 100vw); left: calc(48 / 1024 * 100vw); }
+    .gnb-open-section .menu5 p.text { bottom: calc(-38 / 1024 * 100vw); right: calc(-43 / 1024 * 100vw); }
+
+    .gnb-open-section .menu6 { width: calc(294 / 1024 * 100vw); height: calc(183 / 1024 * 100vw); top: calc(714 / 1024 * 100vw); right: calc(35 / 1024 * 100vw); }
+    .gnb-open-section .menu6 p.text { bottom: calc(36 / 1024 * 100vw); left: 0; }
+
+    .gnb-open-section .menu7 { width: calc(327 / 1024 * 100vw); height: calc(174 / 1024 * 100vw); top: calc(827 / 1024 * 100vw); left: calc(53 / 1024 * 100vw); }
+    .gnb-open-section .menu7 p.text { bottom: calc(-19 / 1024 * 100vw); right: calc(48 / 1024 * 100vw); }
+
+    .gnb-open-section .menu8 { width: calc(267 / 1024 * 100vw); height: calc(185 / 1024 * 100vw); top: calc(1013 / 1024 * 100vw); right: calc(50 / 1024 * 100vw); }
+    .gnb-open-section .menu8 p.text { bottom: calc(-3 / 1024 * 100vw); right: calc(-17 / 1024 * 100vw); }
+}
+
+@media (max-width: 750px) {
+    .gnb-open-section { height: calc(1636 / 750 * 100vw); }
+    .gnb-open-section .bg { width: calc(721 / 750 * 100vw); height: 100vh; }
+    .gnb-open-section .floting-box { width: calc(721 / 750 * 100vw); }
+    .gnb-open-section .menu p.text { font-size: calc(20 / 750 * 100vw); }
+
+    /* 750 위치값들 */
+    .gnb-open-section .menu1 { width: calc(313 / 750 * 100vw); height: calc(146 / 750 * 100vw); top: calc(41 / 750 * 100vw); left: calc(20 / 750 * 100vw); }
+    .gnb-open-section .menu1 p.text { bottom: calc(-8 / 750 * 100vw); left: calc(178 / 750 * 100vw); }
+
+    .gnb-open-section .menu2 { width: calc(301 / 750 * 100vw); height: calc(175 / 750 * 100vw); top: calc(148 / 750 * 100vw); left: calc(403 / 750 * 100vw); }
+    .gnb-open-section .menu2 p.text { bottom: calc(-25 / 750 * 100vw); left: calc(59 / 750 * 100vw); }
+
+    .gnb-open-section .menu3 { width: calc(295 / 750 * 100vw); height: calc(160 / 750 * 100vw); top: calc(275 / 750 * 100vw); left: calc(66 / 750 * 100vw); right: auto; }
+    .gnb-open-section .menu3 p.text { bottom: calc(-25 / 750 * 100vw); right: calc(3 / 750 * 100vw); }
+
+    .gnb-open-section .menu4 { width: calc(358 / 750 * 100vw); height: calc(161 / 750 * 100vw); top: calc(449 / 750 * 100vw); right: calc(32 / 750 * 100vw); left: auto; }
+    .gnb-open-section .menu4 p.text { bottom: calc(-25 / 750 * 100vw); left: calc(65 / 750 * 100vw); }
+
+    .gnb-open-section .menu5 { width: calc(267 / 750 * 100vw); height: calc(161 / 750 * 100vw); top: calc(557 / 750 * 100vw); left: calc(48 / 750 * 100vw); }
+    .gnb-open-section .menu5 p.text { bottom: calc(-38 / 750 * 100vw); right: calc(-43 / 750 * 100vw); }
+
+    .gnb-open-section .menu6 { width: calc(294 / 750 * 100vw); height: calc(183 / 750 * 100vw); top: calc(714 / 750 * 100vw); right: calc(35 / 750 * 100vw); }
+    .gnb-open-section .menu6 p.text { bottom: calc(36 / 750 * 100vw); left: 0; }
+
+    .gnb-open-section .menu7 { width: calc(327 / 750 * 100vw); height: calc(174 / 750 * 100vw); top: calc(827 / 750 * 100vw); left: calc(53 / 750 * 100vw); }
+    .gnb-open-section .menu7 p.text { bottom: calc(-19 / 750 * 100vw); right: calc(48 / 750 * 100vw); }
+
+    .gnb-open-section .menu8 { width: calc(267 / 750 * 100vw); height: calc(185 / 750 * 100vw); top: calc(1013 / 750 * 100vw); right: calc(50 / 750 * 100vw); }
+    .gnb-open-section .menu8 p.text { bottom: calc(-3 / 750 * 100vw); right: calc(-17 / 750 * 100vw); }
 }
