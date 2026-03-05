@@ -93,7 +93,10 @@
 }
 .typing-group3 .line{
     color: #0B0A09;
+    display: inline-block;
+    background-color: #fff;
 }
+
 .line {
     display: block;
     min-height: 1.2em;
