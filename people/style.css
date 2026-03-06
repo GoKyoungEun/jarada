@@ -1,3 +1,4 @@
+
 .pre-re {font-family: "Pretendard Regular", sans-serif;}
 .pre-md {font-family: "Pretendard Medium", sans-serif;}
 .pre-smbd {font-family: "Pretendard SemiBold", sans-serif;}
@@ -90,11 +91,13 @@
     position: absolute;
     left: calc(172 / 1920 * 100vw);
     bottom: calc(285 / 1920 * 100vw);
+    width: 320px;
 }
 .typing-group3 .line{
     color: #0B0A09;
     display: inline-block;
     background-color: #fff;
+    padding:3px
 }
 
 .line {
@@ -102,13 +105,14 @@
     min-height: 1.2em;
     margin-bottom: 5px;
     font-size: 16px;
+    opacity: 0;
 }
 .typing-4 {color: #1C1D1B; font-size: 16px;}
 
 /* ===== bg-5: 팀원 콜라주 (img5) ===== */
 .bg-5 {
     z-index: 5;
-    background: #F0EDEA;
+    background: #f5f4f2;
     position: relative;
     overflow: hidden;
 }
@@ -182,6 +186,9 @@
     color: #FFFBF7;
     letter-spacing: 2px;
 }
+
+.pos-relative{position: relative;}
+.pos-relative .line{position: absolute; top:-5px;}
 @media (max-width: 1024px) {
     .typing-group1, .typing-group2, .typing-group3{
         left: 32px;
@@ -192,14 +199,41 @@
     }
     .typing-group5-left, .typing-group5-right {
         left: 50%;
-        top: 80%;
+        top: 86%;
         transform: translate(-50%, -50%);
         text-align: center;
+        width:80vw;
+
     }
     .typing-group5-right {
-        top: 85%;
+        top: 90%;
     }
     .bg-7 .line.signature-line {
         font-size: calc(84 / 1024 * 100vw);;
+        width:90vw
     }
+
+    .typing-group7 {
+    display: inline-block;
+    text-align: right;
+    position: absolute;
+    bottom: calc(80 / 1080 * 100vh);
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.typing-4 {
+    color: #1C1D1B;
+    font-size: 16px;
+    width: 80vw;
+    text-align: center;
+}
+
+.bg-7 {
+    z-index: 7;
+    background-image: url('https://framerusercontent.com/images/nzcGgzmZVbQryQNBCNK5se3J2g.png?width=750&height=1334');
+    background-size: cover;
+    background-position: center;
+}
+
 }

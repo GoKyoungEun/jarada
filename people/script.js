@@ -21,30 +21,19 @@ dotPositionsPx.forEach(pos => {
     dotContainer.appendChild(dot);
 });
 
-// 2. 타이핑 함수
-const typeLine = (element, text) => {
-    return new Promise((resolve) => {
-        let i = 0;
-        element.innerText = "";
-        element.style.opacity = "1";
-        const typing = () => {
-            if (i <= text.length) {
-                element.innerText = text.substring(0, i);
-                i++;
-                setTimeout(typing, 50);
-            } else { resolve(); }
-        };
-        typing();
-    });
-};
-
-const playTyping = async (groupElement) => {
+// 2. 페이드업 함수 (아래에서 떠오르는 인터렉션)
+const playFadeUp = (groupElement) => {
     if (!groupElement || groupElement.getAttribute("data-is-done") === "true") return;
     groupElement.setAttribute("data-is-done", "true");
     const lines = groupElement.querySelectorAll(".line");
-    for (const line of lines) {
-        await typeLine(line, line.getAttribute("data-text"));
-    }
+    lines.forEach(line => {
+        const text = line.getAttribute("data-text");
+        if (text) line.innerText = text;
+    });
+    gsap.fromTo(lines,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.3, ease: "power2.out" }
+    );
 };
 
 // 3. 1~3번 섹션 트리거
@@ -58,8 +47,6 @@ for (let i = 0; i < 3; i++) {
         zIndex: i + 1
     });
     sectionTriggers.push(st);
-    const groupEl = sections[i].querySelector(".typing-group");
-    if(groupEl && i > 0) groupEl.querySelectorAll(".line").forEach(l => l.innerText = "");
 }
 
 // 4. 4번 섹션 타임라인 (scrub)
@@ -109,22 +96,19 @@ const sec5 = document.querySelector(".bg-5");
 const img5El = sec5.querySelector(".bg-image-5");
 const typingLeft5 = sec5.querySelector(".typing-group5-left");
 const typingRight5 = sec5.querySelector(".typing-group5-right");
-// 초기 숨김
-if (typingLeft5) typingLeft5.querySelectorAll(".line").forEach(l => l.innerText = "");
-if (typingRight5) typingRight5.querySelectorAll(".line").forEach(l => l.innerText = "");
 let sec5Played = false;
 
 const playSec5 = () => {
     if (sec5Played) return;
     sec5Played = true;
-    // 이미지 fade-in → 완료 후 양쪽 타이핑 동시 시작
+    // 이미지 fade-in → 완료 후 양쪽 페이드업 동시 시작
     gsap.to(img5El, {
         opacity: 1,
         duration: 1,
         ease: "power2.out",
         onComplete: () => {
-            playTyping(typingLeft5);
-            playTyping(typingRight5);
+            playFadeUp(typingLeft5);
+            playFadeUp(typingRight5);
         }
     });
 };
@@ -140,7 +124,6 @@ const st5 = ScrollTrigger.create({
 // ===== 6. bg-6 (img6 단체샷) =====
 const sec6 = document.querySelector(".bg-6");
 const typing6 = sec6.querySelector(".typing-group");
-if (typing6) typing6.querySelectorAll(".line").forEach(l => l.innerText = "");
 
 const st6 = ScrollTrigger.create({
     trigger: sec6,
@@ -153,7 +136,6 @@ const st6 = ScrollTrigger.create({
 // ===== 7. bg-7 (img7 서명) =====
 const sec7 = document.querySelector(".bg-7");
 const typing7 = sec7.querySelector(".typing-group");
-if (typing7) typing7.querySelectorAll(".line").forEach(l => l.innerText = "");
 
 const st7 = ScrollTrigger.create({
     trigger: sec7,
@@ -194,9 +176,9 @@ const goToSection = (index) => {
                 return;
             }
 
-            // bg-6, bg-7: 일반 타이핑
+            // bg-6, bg-7: 페이드업
             const group = sections[currentIndex].querySelector(".typing-group");
-            if (group) playTyping(group);
+            if (group) playFadeUp(group);
         }
     });
 };
@@ -236,6 +218,6 @@ window.addEventListener("wheel", (e) => {
 window.scrollTo(0, 0);
 window.addEventListener("load", () => {
     const firstGroup = sections[0].querySelector(".typing-group");
-    if (firstGroup) playTyping(firstGroup);
+    if (firstGroup) playFadeUp(firstGroup);
     ScrollTrigger.refresh();
 });

@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GSAP Stacking Text</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -29,13 +30,13 @@
     <section class="stack-section bg-3">
         <div class="overlay"></div>
         <h1 class="typing-group typing-group3">
-            <div class="line line1 pre-smbd" data-text="우리의 손끝이 무거워질수록,"></div>
-            <div class="line line2 pre-smbd" data-text="거울 앞에 선 당신의 어깨는 가벼워질 것을 압니다."></div>
+            <div class="line pre-smbd" data-text="우리의 손끝이 무거워질수록,"></div>
+            <div class="pos-relative"><div class="line pre-smbd" data-text="거울 앞에 선 당신의 어깨는 가벼워질 것을 압니다."></div></div>
         </h1>
     </section>
 
     <section class="stack-section bg-4">
-        <img src="https://framerusercontent.com/images/napGcurijTfHLaIabMp7zwWx8W4.png" class="bg-image-4" alt="background">
+        <img src="./images/img4.png" class="bg-image-4" alt="background">
         <div class="blur-layer white-blur"></div>
 
         <div class="dot-container"></div>
@@ -46,7 +47,10 @@
     </section>
 
     <section class="stack-section bg-5">
-        <img src="https://framerusercontent.com/images/vXxAR58iF1Yg2uafjboeYpdJfBA.png" class="bg-image-5" alt="background">
+        <picture>
+            <source media="(max-width: 1024px)" srcset="https://framerusercontent.com/images/vbjqqBoIy5LhKLA3MrPX3RLiDxE.png?width=750&height=1334">
+            <img src="https://framerusercontent.com/images/vXxAR58iF1Yg2uafjboeYpdJfBA.png?width=1920&height=1000" class="bg-image-5" alt="background" style="width:100%">
+        </picture>
         <h1 class="typing-group typing-group5-left">
             <div class="line pre-smbd" data-text="그것이 바로,"></div>
         </h1>
@@ -72,3 +76,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+
