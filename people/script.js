@@ -145,6 +145,30 @@ const st7 = ScrollTrigger.create({
     zIndex: 22
 });
 
+const activateSection = (index) => {
+    currentIndex = index;
+
+    if (index === 4) {
+        playSec5();
+        return;
+    }
+
+    const group = sections[index].querySelector(".typing-group");
+    if (group) {
+        playFadeUp(group);
+    }
+};
+
+sections.forEach((section, index) => {
+    ScrollTrigger.create({
+        trigger: section,
+        start: "top 60%",
+        end: "bottom 40%",
+        onEnter: () => activateSection(index),
+        onEnterBack: () => activateSection(index)
+    });
+});
+
 // ===== 8. 이동 함수 (7개 섹션) =====
 // 인덱스: 0(bg-1), 1(bg-2), 2(bg-3), 3(bg-4 scrub), 4(bg-5), 5(bg-6), 6(bg-7)
 const goToSection = (index) => {
@@ -167,18 +191,8 @@ const goToSection = (index) => {
         duration: 0.8,
         ease: "power2.inOut",
         onComplete: () => {
-            currentIndex = index;
             isAnimating = false;
-
-            // bg-5: 이미지 fade-in + 양쪽 타이핑
-            if (currentIndex === 4) {
-                playSec5();
-                return;
-            }
-
-            // bg-6, bg-7: 페이드업
-            const group = sections[currentIndex].querySelector(".typing-group");
-            if (group) playFadeUp(group);
+            activateSection(index);
         }
     });
 };
@@ -217,7 +231,6 @@ window.addEventListener("wheel", (e) => {
 // ===== 10. 페이지 로드 초기화 =====
 window.scrollTo(0, 0);
 window.addEventListener("load", () => {
-    const firstGroup = sections[0].querySelector(".typing-group");
-    if (firstGroup) playFadeUp(firstGroup);
+    activateSection(0);
     ScrollTrigger.refresh();
 });

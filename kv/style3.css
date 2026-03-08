@@ -132,11 +132,11 @@
 .kv .menu8:hover .menu8-hover2 { width: calc(222 / 1920 * 100vw); }
 
 @media (max-width: 1024px) {
-    .kv { height: calc(1625 / 1024 * 100vw); padding-left: calc(14 / 1024 * 100vw); padding-right: calc(14 / 1024 * 100vw); padding-top: calc(170 / 1024 * 100vw); }
+    .kv { height: calc(1625 / 1024 * 100vw); padding-left: calc(14 / 1024 * 100vw); padding-right: calc(14 / 1024 * 100vw); padding-top: calc(68 / 1024 * 100vw); }
     .kv .pc-only { display: none; }
     .kv .mo-only { display: block; }
     .kv .bg { width: 100%; height: calc(1360 / 1024 * 100vw); }
-    .kv .floting-box { width: calc(721 / 1024 * 100vw); top: calc(170 / 1024 * 100vw); margin: 0 auto; }
+    .kv .floting-box { width: calc(721 / 1024 * 100vw); top: calc(68 / 1024 * 100vw); margin: 0 auto; }
     
     .kv .menu p.text { font-size: calc(20 / 1024 * 100vw); }
 
@@ -163,11 +163,11 @@
 
 /* 모바일 (750px 이하) - 호버 CSS 제거 */
 @media (max-width: 750px) {
-    .kv { height: calc(1625 / 750 * 100vw); padding-left: calc(14 / 750 * 100vw); padding-right: calc(14 / 750 * 100vw); padding-top: calc(170 / 750 * 100vw); }
+    .kv { height: calc(1625 / 750 * 100vw); padding-left: calc(14 / 750 * 100vw); padding-right: calc(14 / 750 * 100vw); padding-top: calc(68 / 750 * 100vw); }
     .kv .pc-only { display: none; }
     .kv .mo-only { display: block; }
     .kv .bg { width: calc(721 / 750 * 100vw); height: calc(1360 / 750 * 100vw); }
-    .kv .floting-box { width: calc(721 / 750 * 100vw); top: calc(170 / 750 * 100vw); left: calc(14 / 750 * 100vw); }
+    .kv .floting-box { width: calc(721 / 750 * 100vw); top: calc(68 / 750 * 100vw); left: calc(14 / 750 * 100vw); }
     
     .kv .menu p.text { font-size: calc(20 / 750 * 100vw); }
 

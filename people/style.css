@@ -149,7 +149,7 @@
 /* ===== bg-6: 단체 위에서 (img6) ===== */
 .bg-6 {
     z-index: 6;
-    background-image: url('https://framerusercontent.com/images/oao7YaPlZWxgVq7FRtanm5AQWc.png');
+    background-image: url('https://framerusercontent.com/images/u3atwD8eYPDkDliPluE7ch7a51M.png');
     background-size: cover;
     background-position: center;
 }
@@ -169,7 +169,7 @@
 /* ===== bg-7: 5인 단체 (img7) + 서명 타이핑 ===== */
 .bg-7 {
     z-index: 7;
-    background-image: url('https://framerusercontent.com/images/ZhfS2V9XRxwVdGJOkTqE5N5dA.png');
+    background-image: url('https://framerusercontent.com/images/5V2ZUbo8VeUwIwrE9b2uo3NfAok.png');
     background-size: cover;
     background-position: center;
 }
@@ -208,6 +208,9 @@
     .typing-group5-right {
         top: 90%;
     }
+    .bg-6 {
+        background-image: url('https://framerusercontent.com/images/0R0IXkDEEu9DcualPbvIxZHdAc.png');
+    }
     .bg-7 .line.signature-line {
         font-size: calc(84 / 1024 * 100vw);;
         width:90vw
@@ -231,7 +234,7 @@
 
 .bg-7 {
     z-index: 7;
-    background-image: url('https://framerusercontent.com/images/nzcGgzmZVbQryQNBCNK5se3J2g.png?width=750&height=1334');
+    background-image: url('https://framerusercontent.com/images/y4ga5H3EGnL3GsY556TCX1SwRXc.png?width=750&height=1334');
     background-size: cover;
     background-position: center;
 }
