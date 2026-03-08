@@ -199,14 +199,14 @@
     }
     .typing-group5-left, .typing-group5-right {
         left: 50%;
-        top: 86%;
+        top: 82%;
         transform: translate(-50%, -50%);
         text-align: center;
         width:80vw;
-
+        margin: 0;
     }
     .typing-group5-right {
-        top: 90%;
+        top: 85%;
     }
     .bg-6 {
         background-image: url('https://framerusercontent.com/images/0R0IXkDEEu9DcualPbvIxZHdAc.png');
