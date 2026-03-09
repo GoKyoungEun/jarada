@@ -15,39 +15,103 @@ export default function JaradaStackSectionMobile() {
             const root = rootRef.current
             if (!root) return
 
-            const stageAll = root.querySelector(
-                ".stage-all"
+            const playFadeUp = (groupElement: Element | null) => {
+                if (
+                    !groupElement ||
+                    (groupElement as HTMLElement).getAttribute(
+                        "data-is-done"
+                    ) === "true"
+                ) {
+                    return
+                }
+
+                ;(groupElement as HTMLElement).setAttribute(
+                    "data-is-done",
+                    "true"
+                )
+                const lines = groupElement.querySelectorAll(".line")
+                lines.forEach((line) => {
+                    const text = line.getAttribute("data-text")
+                    if (text) line.textContent = text
+                })
+
+                gsap.fromTo(
+                    lines,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        stagger: 0.3,
+                        ease: "power2.out",
+                    }
+                )
+            }
+
+            const stageA = root.querySelector(".stage-a") as HTMLElement | null
+            const stageASticky = root.querySelector(
+                ".stage-a .mobile-fade-sticky"
             ) as HTMLElement | null
-            const sectionSelectors = [
-                ".bg-1",
-                ".bg-2",
-                ".bg-3",
-                ".bg-4",
-                ".bg-5",
-                ".bg-6",
-                ".bg-7",
-            ]
+            const stageB = root.querySelector(".stage-b") as HTMLElement | null
+            const sec1 = root.querySelector(
+                ".stage-a .bg-1"
+            ) as HTMLElement | null
+            const sec2 = root.querySelector(
+                ".stage-a .bg-2"
+            ) as HTMLElement | null
+            const sec3 = root.querySelector(
+                ".stage-a .bg-3"
+            ) as HTMLElement | null
 
-            const sectionEls = sectionSelectors
-                .map((selector) =>
-                    root.querySelector(`.stage-all ${selector}`)
-                )
-                .filter(
-                    (section): section is HTMLElement => section !== null
-                )
+            if (stageA && stageASticky && sec1 && sec2 && sec3) {
+                gsap.set([sec2, sec3], { autoAlpha: 0 })
+                gsap.set(sec1, { autoAlpha: 1 })
+                if (stageB) {
+                    gsap.set(stageB, { autoAlpha: 0 })
+                }
 
-            if (!stageAll || sectionEls.length !== 7) return
+                playFadeUp(sec1.querySelector(".typing-group"))
 
-            const [sec1, sec2, sec3, sec4, sec5, sec6, sec7] = sectionEls
-            const text4 = sec4.querySelector(".typing-4") as HTMLElement | null
-            const img4 = sec4.querySelector(".bg-image-4") as HTMLElement | null
-            const blurLayer = sec4.querySelector(
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: stageA,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1,
+                    },
+                })
+                    .to(sec1, { autoAlpha: 0, duration: 1, ease: "none" }, 0)
+                    .to(sec2, { autoAlpha: 1, duration: 1, ease: "none" }, 0)
+                    .call(
+                        () => playFadeUp(sec2.querySelector(".typing-group")),
+                        [],
+                        1.6
+                    )
+                    .to(sec2, { autoAlpha: 0, duration: 1, ease: "none" }, 2.2)
+                    .to(sec3, { autoAlpha: 1, duration: 1, ease: "none" }, 2.2)
+                    .call(
+                        () => playFadeUp(sec3.querySelector(".typing-group")),
+                        [],
+                        2.8
+                    )
+                    .to(
+                        stageASticky,
+                        { autoAlpha: 0, duration: 0.9, ease: "none" },
+                        3.8
+                    )
+            }
+
+            const sec4 = root.querySelector(".bg-4") as HTMLElement | null
+            const text4 = sec4?.querySelector(".typing-4") as HTMLElement | null
+            const img4 = sec4?.querySelector(
+                ".bg-image-4"
+            ) as HTMLElement | null
+            const blurLayer = sec4?.querySelector(
                 ".blur-layer"
             ) as HTMLElement | null
-            const dotContainer = sec4.querySelector(
+            const dotContainer = sec4?.querySelector(
                 ".dot-container"
             ) as HTMLElement | null
-
             const text4Content = [
                 "효율을 따졌다면 시작하지 않았을 일들.",
                 "우리는 이 미련한 집요함을 '자라다의 방식'이라 부릅니다.",
@@ -112,108 +176,30 @@ export default function JaradaStackSectionMobile() {
                 })
             }
 
-            const dots = sec4.querySelectorAll(".dot")
-            const setText4 = (index: number) => {
-                if (text4) text4.innerText = text4Content[index]
-            }
+            if (sec4 && text4 && img4 && blurLayer) {
+                const dots = sec4.querySelectorAll(".dot")
 
-            root.querySelectorAll(".line").forEach((line) => {
-                const text = line.getAttribute("data-text")
-                if (text) line.textContent = text
-            })
-
-            gsap.set(sectionEls, { autoAlpha: 0 })
-            gsap.set(sec1, { autoAlpha: 1 })
-            gsap.set(root.querySelectorAll(".line"), { opacity: 0, y: 30 })
-            gsap.set(sec1.querySelectorAll(".line"), { opacity: 1, y: 0 })
-
-            if (text4) {
-                gsap.set(text4, { opacity: 0, y: 30 })
-            }
-            if (img4) {
-                gsap.set(img4, { width: 2561, height: 1711 })
-            }
-            if (blurLayer) {
-                gsap.set(blurLayer, {
-                    backdropFilter: "blur(0px)",
-                    background: "rgba(255, 255, 255, 0)",
+                const tl4 = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: sec4,
+                        start: "top top",
+                        end: "+=4000",
+                        scrub: 1,
+                        pin: true,
+                        pinSpacing: true,
+                        anticipatePin: 1,
+                    },
                 })
-            }
-            gsap.set(dots, { opacity: 0, scale: 0 })
 
-            const crossFadeDuration = 1
-            const textStartOffset = 0.05
-            const sectionHoldDelay = 0.8
-            let cursor = 0
-
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: stageAll,
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 1,
-                    invalidateOnRefresh: true,
-                },
-            })
-
-            const addCrossFade = (
-                fromEl: HTMLElement,
-                toEl: HTMLElement,
-                shouldAnimateText: boolean = true
-            ) => {
-                tl.to(
-                    fromEl,
-                    {
-                        autoAlpha: 0,
-                        duration: crossFadeDuration,
-                        ease: "none",
-                    },
-                    cursor
-                ).to(
-                    toEl,
-                    {
-                        autoAlpha: 1,
-                        duration: crossFadeDuration,
-                        ease: "none",
-                    },
-                    cursor
-                )
-
-                if (shouldAnimateText) {
-                    tl.fromTo(
-                        toEl.querySelectorAll(".line"),
-                        { opacity: 0, y: 30 },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.6,
-                            stagger: 0.2,
-                            ease: "power2.out",
-                        },
-                        cursor + textStartOffset
-                    )
-                }
-
-                cursor += crossFadeDuration + sectionHoldDelay
-            }
-
-            addCrossFade(sec1, sec2)
-            addCrossFade(sec2, sec3)
-            addCrossFade(sec3, sec4, false)
-
-            if (text4 && img4 && blurLayer) {
-                tl.to(
-                    text4,
-                    {
+                tl4.set(text4, { opacity: 0, y: 30 })
+                    .to(text4, {
                         opacity: 1,
                         y: 0,
                         duration: 0.5,
                         onStart: () => {
-                            setText4(0)
+                            text4.innerText = text4Content[0]
                         },
-                    },
-                    cursor + 0.1
-                )
+                    })
                     .to(
                         img4,
                         {
@@ -222,18 +208,16 @@ export default function JaradaStackSectionMobile() {
                             duration: 3,
                             ease: "none",
                         },
-                        cursor + 0.6
+                        "+=0.5"
                     )
-                    .to(
-                        text4,
-                        { opacity: 0, y: -30, duration: 0.2 },
-                        cursor + 1.0
-                    )
+                    .to(text4, { opacity: 0, y: -30, duration: 0.2 }, "-=2.5")
                     .add(() => {
                         const isForward =
-                            (tl.scrollTrigger?.direction ?? 1) > 0
-                        setText4(isForward ? 1 : 0)
-                    }, cursor + 1.2)
+                            (tl4.scrollTrigger?.direction ?? 1) > 0
+                        text4.innerText = isForward
+                            ? text4Content[1]
+                            : text4Content[0]
+                    }, "-=2.3")
                     .to(
                         text4,
                         {
@@ -242,7 +226,7 @@ export default function JaradaStackSectionMobile() {
                             startAt: { y: 30 },
                             duration: 0.2,
                         },
-                        cursor + 1.3
+                        "-=2.2"
                     )
                     .to(
                         blurLayer,
@@ -251,18 +235,14 @@ export default function JaradaStackSectionMobile() {
                             background: "rgba(255, 255, 255, 0.5)",
                             duration: 2,
                         },
-                        cursor + 2.0
+                        "+=0.5"
                     )
-                    .to(
-                        text4,
-                        { opacity: 0, y: -30, duration: 0.2 },
-                        cursor + 2.0
-                    )
+                    .to(text4, { opacity: 0, y: -30, duration: 0.2 }, "<")
                     .add(() => {
                         const isForward =
-                            (tl.scrollTrigger?.direction ?? 1) > 0
+                            (tl4.scrollTrigger?.direction ?? 1) > 0
                         if (isForward) {
-                            setText4(2)
+                            text4.innerText = text4Content[2]
                             gsap.to(dots, {
                                 opacity: 1,
                                 scale: 1,
@@ -272,7 +252,7 @@ export default function JaradaStackSectionMobile() {
                                 overwrite: true,
                             })
                         } else {
-                            setText4(1)
+                            text4.innerText = text4Content[1]
                             gsap.to(dots, {
                                 opacity: 0,
                                 scale: 0,
@@ -280,7 +260,7 @@ export default function JaradaStackSectionMobile() {
                                 overwrite: true,
                             })
                         }
-                    }, cursor + 2.1)
+                    }, "<0.1")
                     .to(
                         text4,
                         {
@@ -289,17 +269,89 @@ export default function JaradaStackSectionMobile() {
                             startAt: { y: 30 },
                             duration: 0.2,
                         },
-                        cursor + 2.2
+                        "<0.2"
+                    )
+
+                if (stageB) {
+                    tl4.to(
+                        sec4,
+                        { autoAlpha: 0, duration: 0.9, ease: "none" },
+                        "+=0.6"
+                    ).to(
+                        stageB,
+                        { autoAlpha: 1, duration: 0.9, ease: "none" },
+                        "<"
+                    )
+                }
+            }
+
+            const sec5 = root.querySelector(
+                ".stage-b .bg-5"
+            ) as HTMLElement | null
+            const sec6 = root.querySelector(
+                ".stage-b .bg-6"
+            ) as HTMLElement | null
+            const sec7 = root.querySelector(
+                ".stage-b .bg-7"
+            ) as HTMLElement | null
+            const img5El = sec5?.querySelector(
+                ".bg-image-5"
+            ) as HTMLElement | null
+            const typingLeft5 = sec5?.querySelector(".typing-group5-left")
+            const typingRight5 = sec5?.querySelector(".typing-group5-right")
+            let sec5Played = false
+
+            const playSec5 = () => {
+                if (sec5Played || !img5El) return
+                sec5Played = true
+                gsap.to(img5El, {
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        playFadeUp(typingLeft5)
+                        playFadeUp(typingRight5)
+                    },
+                })
+            }
+
+            if (stageB && sec5 && sec6 && sec7) {
+                gsap.set([sec6, sec7], { autoAlpha: 0 })
+                gsap.set(sec5, { autoAlpha: 1 })
+
+                ScrollTrigger.create({
+                    trigger: stageB,
+                    start: "top 70%",
+                    onEnter: () => playSec5(),
+                    onEnterBack: () => playSec5(),
+                })
+
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: stageB,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1,
+                    },
+                })
+                    .to(sec5, { autoAlpha: 0, duration: 1, ease: "none" }, 0)
+                    .to(sec6, { autoAlpha: 1, duration: 1, ease: "none" }, 0)
+                    .call(
+                        () => playFadeUp(sec6.querySelector(".typing-group")),
+                        [],
+                        1
+                    )
+                    .to(sec6, { autoAlpha: 0, duration: 1, ease: "none" }, 1.6)
+                    .to(sec7, { autoAlpha: 1, duration: 1, ease: "none" }, 1.6)
+                    .call(
+                        () => playFadeUp(sec7.querySelector(".typing-group")),
+                        [],
+                        2.6
                     )
             }
 
-            cursor += 4.2
-
-            addCrossFade(sec4, sec5)
-            addCrossFade(sec5, sec6)
-            addCrossFade(sec6, sec7)
-
             ScrollTrigger.refresh()
+            window.scrollTo(0, 0)
         }, rootRef)
 
         return () => {
@@ -310,11 +362,11 @@ export default function JaradaStackSectionMobile() {
     return (
         <div ref={rootRef} className="jarada-mobile-root">
             <style>{`
+
                 .pre-re {font-family: "Pretendard Regular", sans-serif;}
                 .pre-md {font-family: "Pretendard Medium", sans-serif;}
                 .pre-smbd {font-family: "Pretendard SemiBold", sans-serif;}
                 .pre-bd {font-family: "Pretendard Bold", sans-serif;}
-
                 .stack-section {
                     position: relative;
                     width: 100%;
@@ -333,7 +385,6 @@ export default function JaradaStackSectionMobile() {
                     overflow: hidden;
                     width: 100%;
                     height: 100vh;
-                    background: #f5f4f2;
                 }
 
                 .bg-image-4 {
@@ -350,10 +401,7 @@ export default function JaradaStackSectionMobile() {
 
                 .blur-layer {
                     position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
+                    top: 0; left: 0; width: 100%; height: 100%;
                     backdrop-filter: blur(0px);
                     background: rgba(255, 255, 255, 0);
                     z-index: 1;
@@ -390,7 +438,7 @@ export default function JaradaStackSectionMobile() {
                 }
 
                 .typing-group {
-                    color: #1c1d1b;
+                    color: #1C1D1B;
                 }
 
                 .typing-group1, .typing-group2 {
@@ -402,8 +450,8 @@ export default function JaradaStackSectionMobile() {
                     left: calc(172 / 1920 * 100vw);
                 }
 
-                .typing-group1 .line, .typing-group2 .line {
-                    color: #fffbf7;
+                .typing-group1 .line, .typing-group2 .line{
+                    color: #FFFBF7;
                 }
 
                 .typing-group3 {
@@ -415,18 +463,11 @@ export default function JaradaStackSectionMobile() {
                     width: 320px;
                 }
 
-                .typing-group3 .line {
-                    color: #0b0a09;
+                .typing-group3 .line{
+                    color: #0B0A09;
                     display: inline-block;
                     background-color: #fff;
-                    padding: 3px;
-                }
-
-                .typing-4 {
-                    color: #1c1d1b;
-                    font-size: 16px;
-                    width: 80vw;
-                    text-align: center;
+                    padding:3px
                 }
 
                 .line {
@@ -436,6 +477,8 @@ export default function JaradaStackSectionMobile() {
                     font-size: 16px;
                     opacity: 0;
                 }
+
+                .typing-4 {color: #1C1D1B; font-size: 16px;}
 
                 .bg-5 {
                     z-index: 5;
@@ -449,7 +492,7 @@ export default function JaradaStackSectionMobile() {
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    opacity: 1;
+                    opacity: 0;
                 }
 
                 .typing-group5-left {
@@ -462,7 +505,7 @@ export default function JaradaStackSectionMobile() {
                 }
 
                 .typing-group5-left .line {
-                    color: #1c1d1b;
+                    color: #1C1D1B;
                 }
 
                 .typing-group5-right {
@@ -475,7 +518,7 @@ export default function JaradaStackSectionMobile() {
                 }
 
                 .typing-group5-right .line {
-                    color: #1c1d1b;
+                    color: #1C1D1B;
                 }
 
                 .bg-6 {
@@ -496,7 +539,7 @@ export default function JaradaStackSectionMobile() {
                 }
 
                 .typing-group6 .line {
-                    color: #0b0a09;
+                    color: #0B0A09;
                 }
 
                 .bg-7 {
@@ -517,17 +560,70 @@ export default function JaradaStackSectionMobile() {
                 .bg-7 .line.signature-line {
                     font-family: "Waiting for the Sunrise Regular", "Waiting for the Sunrise Regular Placeholder", sans-serif;
                     font-size: 84px;
-                    color: #fffbf7;
+                    color: #FFFBF7;
                     letter-spacing: 2px;
                 }
 
-                .pos-relative { position: relative; }
-                .pos-relative .line { position: absolute; top: -5px; }
+                .pos-relative{position: relative;}
+                .pos-relative .line{position: absolute; top:-5px;}
 
-                .jarada-mobile-root .mobile-fade-stage {
+                @media (max-width: 1024px) {
+                    .typing-group1, .typing-group2, .typing-group3{
+                        left: 32px;
+                        top: 248px;
+                    }
+                    .bg-image-5 {
+                        top: 47%;
+                    }
+                    .typing-group5-left, .typing-group5-right {
+                        left: 50%;
+                        top: 82%;
+                        transform: translate(-50%, -50%);
+                        text-align: center;
+                        width:80vw;
+                        margin: 0;
+                    }
+                    .typing-group5-right {
+                        top: 85%;
+                    }
+                    .bg-7 .line.signature-line {
+                        font-size: calc(84 / 1024 * 100vw);
+                        width:90vw
+                    }
+
+                    .typing-group7 {
+                        display: inline-block;
+                        text-align: right;
+                        position: absolute;
+                        bottom: calc(80 / 1080 * 100vh);
+                        left: 50%;
+                        transform: translateX(-50%)
+                    }
+
+                    .typing-4 {
+                        color: #1C1D1B;
+                        font-size: 16px;
+                        width: 80vw;
+                        text-align: center;
+                    }
+                    .bg-6 {
+                        z-index: 7;
+                        background-image: url('https://sienmucangzvtgbnakre.supabase.co/storage/v1/object/public/images/people_img6_m.png');
+                        background-size: cover;
+                        background-position: center;
+                    }
+                    .bg-7 {
+                        z-index: 7;
+                        background-image: url('https://sienmucangzvtgbnakre.supabase.co/storage/v1/object/public/images/people_img7_m.png');
+                        background-size: cover;
+                        background-position: center;
+                    }
+                }
+
+.jarada-mobile-root .mobile-fade-stage {
                     position: relative;
                     width: 100%;
-                    height: 1280vh;
+                    height: 280vh;
                 }
 
                 .jarada-mobile-root .mobile-fade-sticky {
@@ -544,70 +640,17 @@ export default function JaradaStackSectionMobile() {
                     will-change: opacity;
                 }
 
-                @media (max-width: 1024px) {
-                    .typing-group1, .typing-group2, .typing-group3 {
-                        left: 32px;
-                        top: 248px;
-                    }
-
-                    .bg-image-5 {
-                        top: 47%;
-                    }
-
-                    .typing-group5-left, .typing-group5-right {
-                        left: 50%;
-                        top: 85%;
-                        transform: translate(-50%, -50%);
-                        text-align: center;
-                        width: 80vw;
-                        margin: 0;
-                    }
-
-                    .typing-group5-right {
-                        top: 88%;
-                    }
-
-                    .bg-7 .line.signature-line {
-                        font-size: calc(84 / 1024 * 100vw);
-                        width: 90vw;
-                    }
-
-                    .typing-group7 {
-                        display: inline-block;
-                        text-align: right;
-                        position: absolute;
-                        bottom: calc(80 / 1080 * 100vh);
-                        left: 50%;
-                        transform: translateX(-50%);
-                    }
-
-                    .typing-4 {
-                        color: #1c1d1b;
-                        font-size: 16px;
-                        width: 80vw;
-                        text-align: center;
-                    }
-
-                    .bg-6 {
-                        background-image: url('https://sienmucangzvtgbnakre.supabase.co/storage/v1/object/public/images/people_img6_m.png');
-                        background-size: cover;
-                        background-position: center;
-                    }
-
-                    .bg-7 {
-                        background-image: url('https://sienmucangzvtgbnakre.supabase.co/storage/v1/object/public/images/people_img7_m.png');
-                        background-size: cover;
-                        background-position: center;
-                    }
-                }
             `}</style>
 
-            <section className="mobile-fade-stage stage-all">
+            <section className="mobile-fade-stage stage-a">
                 <div className="mobile-fade-sticky">
                     <section className="stack-section mobile-fade-layer bg-1">
                         <div className="overlay" />
                         <h1 className="typing-group typing-group1">
-                            <div className="line pre-smbd" data-text="이 점들은"></div>
+                            <div
+                                className="line pre-smbd"
+                                data-text="이 점들은"
+                            ></div>
                             <div
                                 className="line pre-smbd"
                                 data-text="저마다 다른 속도로 자라날 준비를 하고 있습니다."
@@ -644,24 +687,28 @@ export default function JaradaStackSectionMobile() {
                             </div>
                         </h1>
                     </section>
+                </div>
+            </section>
 
-                    <section className="stack-section mobile-fade-layer bg-4">
-                        <img
-                            src="https://sienmucangzvtgbnakre.supabase.co/storage/v1/object/public/images/people_img4.png"
-                            className="bg-image-4"
-                            alt="background"
-                        />
-                        <div className="blur-layer white-blur" />
+            <section className="stack-section bg-4">
+                <img
+                    src="https://sienmucangzvtgbnakre.supabase.co/storage/v1/object/public/images/people_img4.png"
+                    className="bg-image-4"
+                    alt="background"
+                />
+                <div className="blur-layer white-blur" />
 
-                        <div className="dot-container" />
+                <div className="dot-container" />
 
-                        <div className="content-wrapper">
-                            <h1 className="typing-4 pre-smbd">
-                                효율을 따졌다면 시작하지 않았을 일들.
-                            </h1>
-                        </div>
-                    </section>
+                <div className="content-wrapper">
+                    <h1 className="typing-4 pre-smbd">
+                        효율을 따졌다면 시작하지 않았을 일들.
+                    </h1>
+                </div>
+            </section>
 
+            <section className="mobile-fade-stage stage-b">
+                <div className="mobile-fade-sticky">
                     <section className="stack-section mobile-fade-layer bg-5">
                         <picture>
                             <source
